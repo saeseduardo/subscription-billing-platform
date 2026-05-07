@@ -7,10 +7,12 @@ RUN apk add --no-cache \
     icu-dev \
     libzip-dev \
     oniguruma-dev \
-    postgresql-dev \
+    mysql-dev \
     freetype-dev \
     libjpeg-turbo-dev \
     libpng-dev \
+    linux-headers \
+    $PHPIZE_DEPS \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install intl mbstring pdo pdo_mysql zip gd bcmath \
     && pecl install redis \
@@ -25,7 +27,7 @@ RUN composer install --no-interaction --prefer-dist --no-scripts || true
 
 COPY . .
 
-RUN composer install --no-interaction --prefer-dist \
+RUN composer install --no-interaction --prefer-dist --no-scripts \
     && mkdir -p storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
 

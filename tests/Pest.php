@@ -2,6 +2,8 @@
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-pest()->extend(Tests\TestCase::class)
-    ->use(RefreshDatabase::class)
-    ->in('Feature');
+if (function_exists('pest')) {
+    pest()->extend(Tests\TestCase::class)
+        ->use(RefreshDatabase::class)
+        ->in('Feature');
+}

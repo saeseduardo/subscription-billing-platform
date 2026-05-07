@@ -52,7 +52,10 @@ Requisitos:
 
 ```bash
 cp .env.example .env
-docker compose up -d --build
+docker compose down -v
+docker compose build --no-cache
+docker compose up -d
+docker compose exec app composer install --no-interaction --prefer-dist
 docker compose exec app php artisan key:generate
 docker compose exec app php artisan migrate --seed
 ```
@@ -71,6 +74,24 @@ Procesos incluidos:
 - **redis**: backend de colas.
 - **queue**: worker `queue:work`.
 - **scheduler**: ejecuta `schedule:run` cada minuto.
+
+El proyecto usa un volumen dedicado `vendor-data` para `/var/www/html/vendor`. Esto evita que el bind mount local `.:/var/www/html` oculte las dependencias instaladas por Composer dentro del contenedor.
+
+Si aparece un error como:
+
+```text
+Class "Illuminate\Foundation\Application" not found
+Class Illuminate\Foundation\ComposerScripts is not autoloadable
+```
+
+significa que `vendor` está vacío o incompleto dentro del contenedor. Ejecuta:
+
+```bash
+docker compose down -v
+docker compose build --no-cache
+docker compose up -d
+docker compose exec app composer install --no-interaction --prefer-dist
+```
 
 ## Facturación periódica
 

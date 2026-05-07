@@ -1,5 +1,7 @@
 <?php
 
+uses(Tests\TestCase::class, Illuminate\Foundation\Testing\RefreshDatabase::class);
+
 use App\Events\PaymentFailed;
 use App\Events\PaymentSucceeded;
 use App\Models\Invoice;
