@@ -24,7 +24,7 @@ PaymentFailed -> SendPaymentFailedEmail
 Scheduler -> ProcessRecurringBillingJob -> BillingService
 ```
 
-## Design Patterns usados
+## Patrones de diseño usados
 
 - **Strategy**: `PaymentGateway` define el contrato común para pasarelas. `StripePaymentGateway` y `PayPalPaymentGateway` encapsulan comportamientos específicos.
 - **Factory**: `PaymentGatewayFactory` selecciona la estrategia según la suscripción o configuración.
